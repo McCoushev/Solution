@@ -1,9 +1,33 @@
-<h1><?php echo lang('index_heading');?></h1>
-<p><?php echo lang('index_subheading');?></p>
+<?
+$this->load->view('inc/header');
+?>
+<div id="wrap">
+ 
+	<div class="container">
+		<div class="page-header">
+			
+			<div class="navbar pull-right">
+			<div class="navbar-inner ">
+				  <?
+                            $this->load->view('inc/navigation');
+                            ?>
+			</div>
+		</div>
+                    <?
+                            $this->load->view('inc/logo');
+                            ?>
+		
+		</div>
+		<div  class="content">
+<h1  class="head"><?php echo lang('index_heading');?></h1> 
+                <h2 class="head"><?php echo lang('index_subheading');?></h2> 
+
+
+
 
 <div id="infoMessage"><?php echo $message;?></div>
 
-<table cellpadding=0 cellspacing=10>
+<table class='table table-striped table-hover' cellpadding=0 cellspacing=10>
 	<tr>
 		<th><?php echo lang('index_fname_th');?></th>
 		<th><?php echo lang('index_lname_th');?></th>
@@ -29,3 +53,25 @@
 </table>
 
 <p><?php echo anchor('auth/create_user', lang('index_create_user_link'))?> | <?php echo anchor('auth/create_group', lang('index_create_group_link'))?></p>
+
+ </div>
+             
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+	
+<?
+$this->load->view('inc/footer');       

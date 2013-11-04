@@ -38,8 +38,35 @@
 |
 */
 
-$route['default_controller'] = "auth";
+$route['default_controller'] = "pages/views";
 $route['404_override'] = '';
+
+
+
+
+
+$route = array(
+    'default_controller' => 'pages/views',
+    'contact' => 'contact',
+    'purpose' => 'pages/views/purpose',
+    'questions' => 'pages/views/questions',
+    'about-company' => 'pages/views/about-company',
+    'customers' => 'pages/views/customers',
+    'control' => 'pages/views/control',
+    'mothers-capital' => 'pages/views/mothers-capital',
+    'video' => 'pages/views/video',
+    'scheme-entry' => 'pages/views/scheme-entry',
+    );
+//$route['(:any)'] = 'pages/views/$1';
+
+$route['cabinet/forgot'] = 'auth/forgot_password';
+$route['cabinet/login'] = 'auth/login';
+$route['cabinet'] = 'auth';
+$route['cabinet/(:any)'] = 'auth/$1';
+
+
+
+
 
 
 /* End of file routes.php */

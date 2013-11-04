@@ -69,12 +69,67 @@ $lang['create_user_submit_btn']                        = 'Создать пол�
 $lang['create_user_validation_fname_label']            = 'Имя';
 $lang['create_user_validation_lname_label']            = 'Фамилия';
 $lang['create_user_validation_email_label']            = 'Email';
+$lang['create_user_validation_phone_label']            = 'Телефон';
 $lang['create_user_validation_phone1_label']           = 'Первая часть телефона';
 $lang['create_user_validation_phone2_label']           = 'Вторая часть телефона';
 $lang['create_user_validation_phone3_label']           = 'Третья часть телефона';
 $lang['create_user_validation_company_label']          = 'Компания';
 $lang['create_user_validation_password_label']         = 'Пароль';
 $lang['create_user_validation_password_confirm_label'] = 'Подтверждение пароля';
+/* new data */
+
+$lang['create_user_passport_data_label']                       = 'Паспортные данные:';
+$lang['create_user_passport_issued_label']                     = 'Кем выдан:';
+$lang['create_user_passport_date_issued_label']                = 'Дата выдачи:';
+$lang['create_user_address_registration_label']                = 'Адрес регистрации:';
+$lang['create_user_address_residence_label']                   = 'Адрес проживания:';
+$lang['create_user_birth_date_label']                          = 'Дата рождения:';
+$lang['create_user_birth_place_label']                         = 'Место рождения:';
+$lang['create_user_iin_label']                = 'ИИН:';
+$lang['create_user_preference_region_label']                = 'Желаемый регион расположения:';
+$lang['create_user_preference_district_label']                = 'Желаемый район расположения:';
+$lang['create_user_preference_square_label']                = 'Ориентировачная прощадь (м2):';
+$lang['create_user_preference_cost_label']                = 'Ориентировачная стоимость (руб):';
+
+
+
+
+$lang['create_user_validation_passport_data']                       = 'Паспортные данные';
+$lang['create_user_validation_passport_issued']                     = 'Кем выдан';
+$lang['create_user_validation_passport_date_issued']                = 'Дата выдачи';
+$lang['create_user_validation_address_registration']                = 'Адрес регистрации';
+$lang['create_user_validation_address_residence']                   = 'Адрес проживания';
+$lang['create_user_validation_birth_date']                          = 'Дата рождения';
+$lang['create_user_validation_birth_place']                         = 'Место рождения';
+$lang['create_user_validation_iin']                = 'ИИН';
+$lang['create_user_validation_preference_region_label']                = 'Желаемый регион расположения';
+$lang['create_user_validation_preference_district_label']                = 'Желаемый район расположения';
+$lang['create_user_validation_preference_square_label']                = 'Ориентировачная прощадь (м2)';
+$lang['create_user_validation_preference_cost_label']                = 'Ориентировачная стоимость (руб)'; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*______________*/
+
+
+
+
+
+
+
+
+
+
 
 // Edit User
 $lang['edit_user_heading']                           = 'Редактировать пользователя';

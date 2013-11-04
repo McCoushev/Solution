@@ -7,6 +7,7 @@ class Auth extends CI_Controller {
 		parent::__construct();
 		$this->load->library('ion_auth');
 		$this->load->library('form_validation');
+                
 		$this->load->helper('url');
 
 		// Load MongoDB library instead of native db driver if required
@@ -393,12 +394,12 @@ class Auth extends CI_Controller {
 	function create_user()
 	{
 		$this->data['title'] = "Create User";
-
+                $this->form_validation->set_error_delimiters('<span class="help-inline">', '</span>');
 		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
 		{
 			redirect('auth', 'refresh');
 		}
-
+                
 		//validate form input
 		$this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'required|xss_clean');
 		$this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label'), 'required|xss_clean');
@@ -407,7 +408,22 @@ class Auth extends CI_Controller {
 		$this->form_validation->set_rules('company', $this->lang->line('create_user_validation_company_label'), 'required|xss_clean');
 		$this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
 		$this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'required');
-
+                // validate new data
+                $this->form_validation->set_rules('passport_series', 'required|xss_clean');
+                $this->form_validation->set_rules('passport_series_number','required|xss_clean');
+                $this->form_validation->set_rules('passport_issued', 'required|xss_clean');
+                $this->form_validation->set_rules('passport_date_issued', 'required|xss_clean');
+                $this->form_validation->set_rules('address_registration', 'required|xss_clean');
+                $this->form_validation->set_rules('address_residence', 'required|xss_clean');
+                $this->form_validation->set_rules('birth_date', 'required|xss_clean');
+                $this->form_validation->set_rules('birth_place', 'required|xss_clean');
+                $this->form_validation->set_rules('iin', 'required|xss_clean');
+                $this->form_validation->set_rules('preference_region', 'required|xss_clean');
+                $this->form_validation->set_rules('preference_district', 'required|xss_clean');
+                $this->form_validation->set_rules('preference_square', 'required|xss_clean');
+               
+                
+                
 		if ($this->form_validation->run() == true)
 		{
 			$username = strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name'));
@@ -476,6 +492,102 @@ class Auth extends CI_Controller {
 				'type'  => 'password',
 				'value' => $this->form_validation->set_value('password_confirm'),
 			);
+                        
+                        
+                        
+                        /* New User data */
+                        $this->data['passport_series'] = array(
+				'name'  => 'passport_series',
+				'id'    => 'passport_series',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('passport_series'),
+			);
+                        
+                         $this->data['passport_series_number'] = array(
+				'name'  => 'passport_series_number',
+				'id'    => 'passport_series_number',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('passport_series_number'),
+			);
+                         
+                        $this->data['passport_issued'] = array(
+				'name'  => 'passport_issued',
+				'id'    => 'passport_issued',
+				'rows'  => '5',
+				'value' => $this->form_validation->set_value('passport_issued'),
+			); 
+                        
+                         $this->data['passport_date_issued'] = array(
+				'name'  => 'passport_date_issued',
+				'id'    => 'passport_date_issued',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('passport_date_issued'),
+			);
+                        
+                         $this->data['address_registration'] = array(
+				'name'  => 'address_registration',
+				'id'    => 'address_registration',
+				'rows'  => '5',
+				'value' => $this->form_validation->set_value('address_registration'),
+			); 
+                         
+                         $this->data['address_residence'] = array(
+				'name'  => 'address_residence',
+				'id'    => 'address_residence',
+				'rows'  => '5',
+				'value' => $this->form_validation->set_value('address_residence'),
+			); 
+                         
+                        $this->data['birth_date'] = array(
+				'name'  => 'birth_date',
+				'id'    => 'birth_date',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('birth_date'),
+			);
+                        
+                         $this->data['birth_place'] = array(
+				'name'  => 'birth_place',
+				'id'    => 'birth_place',
+				'rows'  => '5',
+				'value' => $this->form_validation->set_value('birth_place'),
+			); 
+                        
+                         $this->data['iin'] = array(
+				'name'  => 'iin',
+				'id'    => 'iin',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('iin'),
+			);
+                         
+                        $this->data['preference_region'] = array(
+				'name'  => 'preference_region',
+				'id'    => 'preference_region',
+				'rows'  => '5',
+				'value' => $this->form_validation->set_value('preference_region'),
+			); 
+                        
+                        $this->data['preference_district'] = array(
+				'name'  => 'preference_district',
+				'id'    => 'preference_district',
+				'rows'  => '5',
+				'value' => $this->form_validation->set_value('preference_district'),
+			); 
+                        
+                         $this->data['preference_square'] = array(
+				'name'  => 'preference_square',
+				'id'    => 'preference_square',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('preference_square'),
+			);
+                        
+                          $this->data['preference_cost'] = array(
+				'name'  => 'preference_cost',
+				'id'    => 'iin',
+				'type'  => 'text',
+				'value' => $this->form_validation->set_value('preference_cost'),
+			);
+                        /*______________*/
+                        
 
 			$this->_render_page('auth/create_user', $this->data);
 		}
@@ -743,5 +855,23 @@ class Auth extends CI_Controller {
 
 		if (!$render) return $view_html;
 	}
+        
+        
+        function GetRealIp()
+        {
+         if (!empty($_SERVER['HTTP_CLIENT_IP'])) 
+         {
+           $ip=$_SERVER['HTTP_CLIENT_IP'];
+         }
+         elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+         {
+          $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+         }
+         else
+         {
+           $ip=$_SERVER['REMOTE_ADDR'];
+         }
+         return $ip;
+        }
 
 }
