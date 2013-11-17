@@ -26,7 +26,7 @@ $config['base_url']	= 'http://co-op-solution.com';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'simplesol.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------

@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class Anons extends CI_Controller
+class Anons extends MX_Controller
 {
 
     public function __construct()
@@ -23,10 +23,9 @@ class Anons extends CI_Controller
 
     public function userList()
     {
-
+        $this->grocery_crud->set_theme('datatables');
         $this->grocery_crud->set_table('anons_user');
         $this->grocery_crud->set_subject('Клиента');
-//        $this->grocery_crud->columns('anons_date','name','email','phone');
         $this->grocery_crud 
             ->display_as('anons_id', 'Дата записи')
             ->display_as('name', 'Имя')
@@ -35,6 +34,8 @@ class Anons extends CI_Controller
         $this->grocery_crud->set_relation('anons_id', 'anons', 'anons_date');
 
         $output = $this->grocery_crud->render();
+        
+//        echo ("<pre> output data "), print_r($output,true); echo PHP_EOL; die();
 
         $this->anonsUserOutput($output);
     }
@@ -46,25 +47,9 @@ class Anons extends CI_Controller
         $this->_example_output($output);
     }
 
-    public
-        function index()
+    public function index()
     {
-
-
-        if (!$this->ion_auth->logged_in())
-        {
-            //redirect them to the login page
-            redirect('auth/login', 'refresh');
-        }
-        elseif (!$this->ion_auth->is_admin()) //remove this elseif if you want to enable this for non-admins
-        {
-            //redirect them to the home page because they must be an administrator to view this
-            return show_error('You must be an administrator or manager to view this page.');
-        }
-        else
-        {
-            $this->_example_output((object) array('output'    => '', 'js_files'  => array(), 'css_files' => array()));
-        }
+        $this->anonsUserOutput((object)array('output' => '' , 'js_files' => array() , 'css_files' => array()));      
     }
 
     public

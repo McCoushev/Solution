@@ -62,8 +62,8 @@ $route['cabinet/(:any)']    = 'auth/$1';
 
 // --------------Block for control panel ----------------
 
-$route['control_panel']       = 'control/anons';
-$route['control_panel/anons'] = 'control/anons/userList';
+$route['control']       = 'control/anons';
+$route['control/anons'] = 'control/anons/userList';
 
 
 
