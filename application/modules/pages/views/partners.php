@@ -1,7 +1,7 @@
 <?
 $this->load->view('inc/header');
 ?>
-<div id="wrap">
+
  
 	<div class="container">
 		<div class="page-header">
