@@ -127,12 +127,12 @@ class Auth extends CI_Controller
     {
         $this->data['title'] = "Anons";
         
-        $this->data['modal'] = '';
+        $this->data['modal'] = ''; 
 
         $this->form_validation->set_error_delimiters('<span class="help-inline">', '</span>');
         $this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'required|xss_clean');
         $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email|is_unique[anons_user.email]');
-        $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'required|xss_clean|numeric|max_length[10]');
+        $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'required|xss_clean|numeric|max_length[14]');
         
         
 

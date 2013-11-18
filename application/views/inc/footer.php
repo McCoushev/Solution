@@ -1,10 +1,12 @@
-<div id="push"></div>
-</div>
-<div id="footer">
-    <div style="max-width: 1006px;margin:0 auto;"><hr  />  </div>
-    <div class="container info">
+<div id="push"> &nbsp; </div>
 
-        <table>
+
+</div> <!-- close wrap -->
+<div id="footer">
+    
+    <div class="container info">
+           <div style="max-width: 1044px;margin:0 auto;"> <hr style="display:block;position:relative;top:-10px;margin:0px;"  />  </div>
+        <table style="width:100%;">
             <tr>
                 <td id="addres">
                     <div>
