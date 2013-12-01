@@ -23,10 +23,9 @@ class Anons extends CI_Controller
 
     public function userList()
     {
-
+        $this->grocery_crud->set_theme('datatables');
         $this->grocery_crud->set_table('anons_user');
         $this->grocery_crud->set_subject('Клиента');
-//        $this->grocery_crud->columns('anons_date','name','email','phone');
         $this->grocery_crud 
             ->display_as('anons_id', 'Дата записи')
             ->display_as('name', 'Имя')
@@ -46,11 +45,8 @@ class Anons extends CI_Controller
         $this->_example_output($output);
     }
 
-    public
-        function index()
+    public function index()
     {
-
-
         if (!$this->ion_auth->logged_in())
         {
             //redirect them to the login page
@@ -63,7 +59,7 @@ class Anons extends CI_Controller
         }
         else
         {
-            $this->_example_output((object) array('output'    => '', 'js_files'  => array(), 'css_files' => array()));
+            $this->anonsUserOutput((object) array('output'    => '', 'js_files'  => array(), 'css_files' => array()));
         }
     }
 

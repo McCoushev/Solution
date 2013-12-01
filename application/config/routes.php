@@ -47,29 +47,39 @@ $route['contact']            = 'contact';
 $route['purpose']            = 'pages/views/purpose';
 $route['questions']          = 'pages/views/questions';
 $route['about-company']      = 'pages/views/about-company';
+$route['about-company/ustav']= 'pages/views/ustav';
+$route['about-company/dogovor'] = 'pages/views/dogovor';
 $route['partners']           = 'pages/views/partners';
 $route['control']            = 'pages/views/control';
 $route['shareholderProtect'] = 'pages/views/shareholderProtect';
 $route['video']              = 'pages/views/video';
 $route['scheme-entry']       = 'pages/views/scheme-entry';
 
+
 //$route['(:any)'] = 'pages/views/$1';
 
-$route['cabinet/forgot']    = 'auth/forgot_password';
-$route['cabinet/login']     = 'auth/login';
-$route['cabinet/bonusu']    = 'pages/views/user-bonus';
-$route['cabinet/genialogy'] = 'pages/views/genialogy';
-//$route['cabinet'] = 'auth'; 
-$route['cabinet']           = 'underConstruct/underConstruct';
-$route['cabinet/(:any)']    = 'auth/$1';
+$route['forgot_password']    = 'auth/forgot_password';
+$route['login']     = 'auth/login';
+$route['logout']     = 'auth/logout';
+$route['register']  = 'auth/userRegistration';
+$route['register_sucsess']  = 'auth/user_register_sucsess';
+$route['cabinet/edit']    = 'cabinet/editForm';
+$route['cabinet/update']    = 'cabinet/update';
+$route['cabinet/success']    = 'cabinet/success';
+$route['cabinet/invoice']    = 'cabinet/invoice';
+$route['cabinet/bonus']    = 'cabinet/showBonus';
+$route['cabinet/genialogy'] = 'cabinet/genialogy';
+$route['cabinet'] = 'cabinet'; 
+//$route['cabinet']           = 'underConstruct/underConstruct';
+//$route['cabinet/(:any)']    = 'auth/$1';
 
 // --------------Block for control panel ----------------
 
-$route['control_panel']       = 'control/anons';
-$route['control_panel/anons'] = 'control/anons/userList';
-
-
-
+$route['control']       = 'control/anons';
+$route['control/anons'] = 'control/anons/userList';
+$route['control/example'] = 'control/examples/offices';
+$route['control/customers_management'] = 'control/examples/customers_management';
+$route['control/film_management_twitter_bootstrap'] = 'control/examples/film_management_twitter_bootstrap';
 
 
 /* End of file routes.php */

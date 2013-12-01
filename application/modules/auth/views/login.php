@@ -15,7 +15,7 @@ $this->load->view('inc/header');
                     <?  $this->load->view('inc/logo'); ?>
 		
 		</div>
-		<div style="padding:15px 280px;" class="content">
+		<div style="padding:15px 300px;" class="content">
 <h1  class="head">Регистрация</h1> 
                 <h2 class="head">Компания  «Простое решение» это:</h2> 
 <!--h1><?php echo lang('login_heading');?></h1>
@@ -28,7 +28,7 @@ $this->load->view('inc/header');
 
 
 <? $attributes = array('class' => 'form-signin'); ?> 
-<?php echo form_open("auth/login", $attributes);?>
+<?php echo form_open("login", $attributes);?>
 
         <h2 class="form-signin-heading">Вход в кабинет</h2>
         
@@ -41,14 +41,17 @@ $this->load->view('inc/header');
          <? $password['placeholder'] = 'Пароль'; ?>
    
         <?php echo form_input($password);?>
-        
-        <label class="checkbox">
+        <br />
+        <!--label class="checkbox">
           <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"');?>Remember me
-        </label>
-        <?php echo form_submit('submit', lang('login_submit_btn'));?>
+        </label-->
+        <?php
+         //echo form_submit('submit', lang('login_submit_btn'));
+        ?>
         <!--button class="btn btn-large btn-primary" type="submit">Sign in</button-->
         
-        <a href="forgot_password"><?php echo lang('login_forgot_password');?></a>
+        <br />
+        <a href="/register">Регистрация-></a><?php echo (form_error('first_name'))?'<a href="/forgot_password">.lang(\'login_forgot_password\').</a>':''; ?>
      <?php echo form_close();?>
        </div>
              

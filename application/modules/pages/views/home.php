@@ -57,80 +57,8 @@ $this->load->view('inc/header');
 	
 	
 
-<!-- Modal -->
-<div id="anons" class="modal hide fade" tabindex="-1"   aria-hidden="true">
-    <? $attributes = array('class' => 'form-inline radius4 anons-form'); ?> 
-    <?php echo form_open("auth/anons", $attributes);?>
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-   
-  </div>
-  <div class="modal-body">
-    <h3>Презентация компании состоится 18 ноября в 15-00 в здании Сбербанка по адресу: Москва, ул. Большая Дорогомиловская, дом 10.</h3>
-    <p class='blue'>Количество мест ограничено. Для того, что бы Вы гарантировано попали на наше мероприятие  Вам необходимо пройти регистрацию</p>
-    
-            <span class="control-group"><input type="text" name="first_name" class="input-medium uneditable " placeholder="Имя"></span>
-            <span class="control-group"><input type="text" name="email" class="input-medium uneditable" placeholder="Email"></span>
-            <span class="control-group"><input type="text" name="phone" class="input-medium uneditable" placeholder="Тел."></span>
-    
-  </div>
-  <div class="modal-footer">
-      
-   <div class='row'>
-       <span class='span5 linebg'> </span>
-       <button type="submit" class="btn btn-primary-dark">Регистрация</button>
-    </div>
-    
-  </div>
-     <?php echo form_close();?>
-</div>	
-<script type='text/javascript'>
-$(function(){
-    $('#anons').modal('show');
 
-    $('#anons').on('shown', function () {
-        setTimeout(function(){
-            close = false;
-            if($("input,textarea").is(":focus")){
-                return true;
-            }else{
-                $('#anons').modal('hide');
-            }      
-        }, 15000);
-      })
-        
-        
- 
- $('.anons-form').validate(
- {focusCleanup: true,
-  rules: {
-    first_name: {
-      required: true
-    },
-    email: {
-      required: true,
-      email: true
-    },
-    phone: {
-      required: true
-    }
-  },
-  highlight: function(element) {
-    $(element).closest('.control-group').removeClass('success').addClass('error');
-  },
-  errorPlacement: function(error, element) {
-    //error.appendTo( element.parent("td").next("td") );
-  },
-  success: function(element) {
-    element
-    .addClass('valid')
-    .closest('.control-group').removeClass('error').addClass('success');
-  }
- });
- 
-}); 
- 
-</script>
+
 
 <script src="/assets/js/blueimp-helper.js"></script>
 <script src="/assets/js/blueimp-gallery.js"></script>

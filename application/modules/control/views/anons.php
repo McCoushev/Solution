@@ -28,7 +28,7 @@ a:hover
 </head>
 <body>
 	<div>
-		<a href='<?php echo site_url('control_panel/anons')?>'>Запись на презентацию</a> |
+		<a href='<?php echo site_url('control/anons')?>'>Запись на презентацию</a> |
 		<a href='<?php echo site_url('auth/logout')?>'>Выйти</a>
 		
 		

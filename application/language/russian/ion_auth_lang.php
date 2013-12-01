@@ -33,14 +33,14 @@ $lang['activate_successful'] 		  	 = 'Учетная запись активир
 $lang['activate_unsuccessful'] 		 	 = 'Не удалось активировать учетную запись';
 $lang['deactivate_successful'] 		  	 = 'Учетная запись деактивирована';
 $lang['deactivate_unsuccessful'] 	  	 = 'Невозможно деактивировать учетную запись';
-$lang['activation_email_successful'] 	  	 = 'Сообщение об активации отправлено';
+$lang['activation_email_successful'] 	  	 = 'Сообщение об активации отправлено на указанный Вами e-mail';
 $lang['activation_email_unsuccessful']   	 = 'Сообщение об активации невозможно отправить';
 
 // Login / Logout
 $lang['login_successful'] 		  	 = 'Авторизация прошла успешно';
 $lang['login_unsuccessful'] 		  	 = 'Логин/пароль не верен';
 $lang['logout_successful'] 		 	 = 'Выход успешный';
-
+$lang['password_unsuccessful'] 		  	 = 'Пароль не верен';
 // Account Changes
 $lang['update_successful'] 		 	 = 'Учетная запись успешно обновлена';
 $lang['update_unsuccessful'] 		 	 = 'Невозможно обновить учетную запись';
