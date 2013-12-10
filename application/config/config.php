@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://simplesol.eu';
+$config['base_url']	= 'http://co-op-solution.com';
 
 /*
 |--------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 <?
 $this->load->view('inc/header');
 ?>
-<div id="wrap">
+
 	<div class="container">
 		<div class="page-header">
 			
@@ -15,7 +15,7 @@ $this->load->view('inc/header');
                     <?  $this->load->view('inc/logo'); ?>
 		
 		</div>
-		<div style="padding:15px 300px;" class="content">
+		<div style="padding:15px 370px;" class="content">
 <h1  class="head">Регистрация</h1> 
                 <h2 class="head">Компания  «Простое решение» это:</h2> 
 <!--h1><?php echo lang('login_heading');?></h1>
@@ -42,16 +42,17 @@ $this->load->view('inc/header');
    
         <?php echo form_input($password);?>
         <br />
-        <!--label class="checkbox">
+        <label class="checkbox">
           <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"');?>Remember me
-        </label-->
+        </label>
         <?php
-         //echo form_submit('submit', lang('login_submit_btn'));
+        // echo form_submit('submit', lang('login_submit_btn'));
         ?>
         <!--button class="btn btn-large btn-primary" type="submit">Sign in</button-->
         
-        <br />
-        <a href="/register">Регистрация-></a><?php echo (form_error('first_name'))?'<a href="/forgot_password">.lang(\'login_forgot_password\').</a>':''; ?>
+       
+        <a href="/cabinet/register">Регистрация-></a><?php echo form_error('password'); ?><br />&nbsp;
+        
      <?php echo form_close();?>
        </div>
              
@@ -59,11 +60,17 @@ $this->load->view('inc/header');
 
 
 
-       </div>
+    
              
-	</div>
+	
    
- 
+ <script>
+     $('.form-signin input[name=\'password\']').bind('keydown', function(e) {
+		if (e.keyCode == 13) {
+			$('.form-signin').submit();
+		}
+	});
+ </script>
 
 	
 <?

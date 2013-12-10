@@ -6,7 +6,7 @@
                                         <ul class="dropdown-menu">
 							<li><a tabindex="-1" href="/about-company">0 Компании</a></li>
                                                         <li><a tabindex="-1" href="/partners">Наши партнеры</a></li>
-							<li><a tabindex="-1" href="/control">Нас контролируют</a></li>
+							<li><a tabindex="-1" href="/controls">Нас контролируют</a></li>
 							<li><a tabindex="-1" href="/shareholderProtect">Защита пайщика</a></li>
 						</ul>
                                         </li>

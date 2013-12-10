@@ -32,6 +32,7 @@ $config['collections']['login_attempts'] = 'login_attempts';
 | Database table names.
 */
 $config['tables']['users']           = 'users';
+$config['tables']['users_data']      = 'user_data';
 $config['tables']['groups']          = 'groups';
 $config['tables']['users_groups']    = 'users_groups';
 $config['tables']['login_attempts']  = 'login_attempts';
@@ -43,6 +44,7 @@ $config['tables']['login_attempts']  = 'login_attempts';
  | Joins from groups.id
  */
 $config['join']['users']  = 'user_id';
+$config['join']['user_data']  = 'user_id';
 $config['join']['groups'] = 'group_id';
 
 /*
@@ -81,14 +83,14 @@ $config['max_rounds']     = 9;
  | The controller should check this function and act
  | appropriately. If this variable set to 0, there is no maximum.
  */
-$config['site_title']                 = "SimpleSol.eu";       // Site Title, example.com
+$config['site_title']                 = "co-op-solution.com";       // Site Title, example.com
 $config['admin_email']                = "alexmc@apollo.lv"; // Admin Email, admin@example.com
 $config['default_group']              = 'members';           // Default group, use name
 $config['admin_group']                = 'admin';             // Default administrators group, use name
 $config['identity']                   = 'email';             // A database column which is used to login with
-$config['min_password_length']        = 8;                   // Minimum Required Length of Password
+$config['min_password_length']        = 10;                   // Minimum Required Length of Password
 $config['max_password_length']        = 20;                  // Maximum Allowed Length of Password
-$config['email_activation']           = FALSE;               // Email Activation for registration
+$config['email_activation']           = TRUE;                // Email Activation for registration
 $config['manual_activation']          = FALSE;               // Manual Activation for registration
 $config['remember_users']             = TRUE;                // Allow users to be remembered and enable auto-login
 $config['user_expire']                = 86500;               // How long to remember the user (seconds). Set to zero for no expiration
@@ -168,7 +170,7 @@ $config['store_salt']  = true;
 $config['delimiters_source']       = 'config'; 	// "config" = use the settings defined here, "form_validation" = use the settings defined in CI's form validation library
 $config['message_start_delimiter'] = '<p>'; 	// Message start delimiter
 $config['message_end_delimiter']   = '</p>'; 	// Message end delimiter
-$config['error_start_delimiter']   = '<p>';		// Error mesage start delimiter
+$config['error_start_delimiter']   = '<p>';	// Error mesage start delimiter
 $config['error_end_delimiter']     = '</p>';	// Error mesage end delimiter
 
 /* End of file ion_auth.php */

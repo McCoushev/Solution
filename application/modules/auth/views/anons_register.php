@@ -24,7 +24,7 @@ $this->load->view('inc/header');
                
             <? $attributes = array('class' => 'form-signin register form-horizontal'); ?>
 <?php echo form_open("auth/anons", $attributes);?>
-                 <h2 class="form-signin-heading">Регистрация на презентацию</h2>
+                 <h2 class="form-signin-heading">Регистрация на встречy</h2>
                  <?php //echo $message;?>
                   <div class="control-group <?php echo (form_error('first_name'))?'error':''; ?>">
                     <label class="control-label" for="first_name"><?php echo lang('create_user_fname_label', 'first_name');?></label>

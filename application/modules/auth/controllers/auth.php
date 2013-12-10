@@ -2,9 +2,16 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Auth extends CI_Controller
+class Auth extends MX_Controller
 {
 
+    /**
+     * Array of data
+     *
+     * @var array
+     * */
+    public $data= array();
+    
     function __construct()
     {
         parent::__construct();
@@ -14,10 +21,8 @@ class Auth extends CI_Controller
         $this->load->helper('url');
 
         // Load MongoDB library instead of native db driver if required
-        $this->config->item('use_mongodb', 'ion_auth') ?
-                $this->load->library('mongo_db') :
-                $this->load->database();
-
+        $this->config->item('use_mongodb', 'ion_auth') ? $this->load->library('mongo_db') : $this->load->database();
+        
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
         $this->lang->load('auth');
@@ -27,7 +32,6 @@ class Auth extends CI_Controller
     //redirect if needed, otherwise display the user list
     function index()
     {
-
         if (!$this->ion_auth->logged_in())
         {
             //redirect them to the login page
@@ -53,12 +57,49 @@ class Auth extends CI_Controller
             $this->_render_page('auth/index', $this->data);
         }
     }
+     
+    public function username_check($str)
+	{
+		if ($str == 'test')
+		{
+			$this->form_validation->set_message('username_check', 'Значение поля %s не может иметь значение "test"');
+			return FALSE;
+		}
+		else
+		{
+			$this->form_validation->set_message('username_check', 'Значение поля %s не может иметь значение "test"');
+			return FALSE;
+		}
+	}
+    //redirect if needed, otherwise display the user list
+    function cabinet_index()
+    {
+        if (!$this->ion_auth->logged_in())
+        {
+            //redirect them to the login page
+            redirect('cabinet/login', 'refresh');
+        }
+        else
+        {
+            //set the flash data error message if there is one
+            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
+            //list the users
+            $this->data['users'] = $this->ion_auth->users()->result();
+            foreach ($this->data['users'] as $k => $user)
+            {
+                $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
+            }
+
+            $this->_render_page('cabinet/index', $this->data);
+        }
+    }
+    
     //log the user in
     function login()
     {
         $this->data['title'] = "Login";
-
+        
         //validate form input
         $this->form_validation->set_rules('identity', 'Identity', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
@@ -74,22 +115,40 @@ class Auth extends CI_Controller
                 //if the login is successful
                 //redirect them back to the home page
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
-                redirect('/', 'refresh');
+                redirect('cabinet', 'refresh');
             }
             else
             {
                 //if the login was un-successful
                 //redirect them back to the login page
                 $this->session->set_flashdata('message', $this->ion_auth->errors());
-                redirect('auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
+                //print_r($this->ion_auth->errors_array());
+                $this->session->set_flashdata('errors', $this->ion_auth->_errors_array()); 
+                
+                $this->data['message'] = (validation_errors()) ? validation_errors() : $this->ion_auth->errors();
+                $this->data['errors'] = $this->ion_auth->_errors_array();
+                $this->data['identity'] = array('name'  => 'identity',
+                    'id'    => 'identity',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('identity'),
+                );
+                $this->data['password'] = array(
+                        'name' => 'password',
+                        'id'   => 'password',
+                        'type' => 'password', );
+
+                $this->_render_page('auth/user/user_login', $this->data);
+                //redirect('login', 'refresh'); 
+//use redirects instead of loading views for compatibility with MY_Controller libraries
             }
         }
         else
         {
             //the user is not logging in so display the login page
             //set the flash data error message if there is one
+            //$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
             $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-
+            $this->data['errors'] = $this->session->flashdata('errors');
             $this->data['identity'] = array('name'  => 'identity',
                 'id'    => 'identity',
                 'type'  => 'text',
@@ -99,8 +158,10 @@ class Auth extends CI_Controller
                 'id'   => 'password',
                 'type' => 'password',
             );
+            
+           $this->_render_page('auth/user/user_login', $this->data); 
         }
-        $this->_render_page('auth/login', $this->data);
+        
     }
     
     function anons_sucsess($username, $email, $phone){
@@ -115,8 +176,28 @@ class Auth extends CI_Controller
             'phone'=>$phone,
         );
         
-        $this->email->subject('Регистрация на презентацию');
+        $this->email->subject('Регистрация на встречу');
         $text = $this->load->view('auth/email/sucsess', $this->data, true);
+        $this->email->message($text);	
+
+        $this->email->send();
+
+    }
+    
+    function register_sucsess($username, $email, $data){
+        
+        $this->email->from('cooperative.r.c@gmail.com', '«ПРОСТОЕ РЕШЕНИЕ»');
+        $this->email->to($email); 
+     
+        //$this->email->bcc('cooperative.r.c@gmail.com'); 
+        $this->data = $data;
+        $this->data['email'] = $email;
+        $this->data['first_name'] = $username;
+      
+        
+        
+        $this->email->subject('Регистрация на сайте «ПРОСТОЕ РЕШЕНИЕ»');
+        $text = $this->load->view('auth/email/register_sucsess', $this->data, true);
         $this->email->message($text);	
 
         $this->email->send();
@@ -627,7 +708,7 @@ class Auth extends CI_Controller
         {
             $activation = $this->ion_auth->activate($id, $code);
         }
-        else if ($this->ion_auth->is_admin())
+        else //if ($this->ion_auth->is_admin())
         {
             $activation = $this->ion_auth->activate($id);
         }
@@ -685,6 +766,231 @@ class Auth extends CI_Controller
             redirect('auth', 'refresh');
         }
     }
+    
+    
+    
+     function userRegistration()
+    {
+        $this->data['title'] = "User registration";
+        $this->form_validation->set_error_delimiters('<span class="help-inline">', '</span>');
+       
+
+       
+        $this->form_validation->set_message('password', $this->lang->line('password_error'));
+        $this->form_validation->set_message('regex_match', $this->lang->line('password_error'));
+        
+        if ($this->form_validation->run($this) == true)
+        {
+            $username = strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name'));
+            $email    = strtolower($this->input->post('email'));
+            $password = $this->input->post('password');
+
+            $additional_data = array(
+                'first_name' => $this->input->post('first_name'),
+                'last_name'  => $this->input->post('last_name'),
+                'phone'      => $this->input->post('phone'),
+                'referal_code'      => $this->input->post('referal_code'),
+            );
+            
+            $new_data = array(
+                'passport_series_number'  => $this->input->post('passport_series_number'),
+                'passport_date_issued'      => $this->input->post('passport_date_issued'),
+                'address_registration'      => $this->input->post('address_registration'),
+                'birth_date'      => $this->input->post('birth_date'),
+                'iin'      => $this->input->post('iin'),
+                'city'      => $this->input->post('city'),
+                'country'      => $this->input->post('country'),
+                'preference_district'      => $this->input->post('preference_district'),
+            );
+        
+        
+        $id = $this->ion_auth->user_register($username, $password, $email, $additional_data, array(2),$new_data);
+        if ($id)
+        {   $this->register_sucsess($username, $email, $new_data);
+            //check to see if we are creating the user
+            //redirect them back to the admin page
+            $this->session->set_flashdata('message', $this->ion_auth->messages());
+            
+            
+            
+            $deactivate = $this->ion_auth_model->deactivate($id);
+
+			if (!$deactivate)
+			{
+				$this->set_error('deactivate_unsuccessful');
+				$this->ion_auth_model->trigger_events(array('post_account_creation', 'post_account_creation_unsuccessful'));
+				return FALSE;
+			}
+
+			$activation_code = $this->ion_auth_model->activation_code;
+			$identity        = $this->config->item('identity', 'ion_auth');
+			$user            = $this->ion_auth_model->user($id)->row();
+
+			$data = array(
+				'identity'   => $user->{$identity},
+				'id'         => $user->id,
+				'email'      => $email,
+				'activation' => $activation_code,
+			);
+			if(!$this->config->item('use_ci_email', 'ion_auth'))
+			{
+				$this->ion_auth_model->trigger_events(array('post_account_creation', 'post_account_creation_successful', 'activation_email_successful'));
+				//$this->set_message('activation_email_successful');
+                             $this->data['message'] =  $this->lang->line('activation_email_successful');
+                             
+					$this->_render_page('auth/user/register_sucsess');
+                                        
+			}
+			else
+			{
+				$message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_activate', 'ion_auth'), $data, true);
+
+				$this->email->clear();
+				$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
+				$this->email->to($email);
+				$this->email->subject($this->config->item('site_title', 'ion_auth') . ' - ' . $this->lang->line('email_activation_subject'));
+				$this->email->message($message);
+
+				if ($this->email->send() == TRUE)
+				{
+					$this->ion_auth_model->trigger_events(array('post_account_creation', 'post_account_creation_successful', 'activation_email_successful'));
+					
+                                        $this->data['message'] =  $this->lang->line('activation_email_successful');
+                                         
+					$this->_render_page('auth/user/register_sucsess');
+				}
+			}
+            
+         
+           // $this->_render_page('auth/user/register_sucsess');
+        }
+        
+        }
+        else
+        {
+            //display the create user form
+            //set the flash data error message if there is one
+            $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+
+            $this->data['first_name']       = array(
+                'name'  => 'first_name',
+                'id'    => 'first_name',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('first_name'),
+            );
+            $this->data['last_name']        = array(
+                'name'  => 'last_name',
+                'id'    => 'last_name',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('last_name'),
+            );
+            $this->data['email']            = array(
+                'name'  => 'email',
+                'id'    => 'email',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('email'),
+            );
+           
+            $this->data['phone']            = array(
+                'name'  => 'phone',
+                'id'    => 'phone',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('phone'),
+            );
+            $this->data['password']         = array(
+                'name'  => 'password',
+                'id'    => 'password',
+                'type'  => 'password',
+                'value' => $this->form_validation->set_value('password'),
+            );
+            $this->data['password_confirm'] = array(
+                'name'  => 'password_confirm',
+                'id'    => 'password_confirm',
+                'type'  => 'password',
+                'value' => $this->form_validation->set_value('password_confirm'),
+            );
+
+
+
+            /* New User data */
+           
+
+            $this->data['passport_series_number'] = array(
+                'name'  => 'passport_series_number',
+                'id'    => 'passport_series_number',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('passport_series_number'),
+            );
+
+
+            $this->data['passport_date_issued'] = array(
+                'name'  => 'passport_date_issued',
+                'id'    => 'passport_date_issued',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('passport_date_issued'),
+            );
+
+            $this->data['address_registration'] = array(
+                'name'  => 'address_registration',
+                'id'    => 'address_registration',
+                'rows'  => '5',
+                'value' => $this->form_validation->set_value('address_registration'),
+            );
+
+          
+
+            $this->data['birth_date'] = array(
+                'name'  => 'birth_date',
+                'id'    => 'birth_date',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('birth_date'),
+            );
+
+            $this->data['city'] = array(
+                'name'  => 'city',
+                'id'    => 'city',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('city'),
+            );
+            
+             $this->data['country'] = array(
+                'name'  => 'country',
+                'id'    => 'country',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('country'),
+            );
+
+            $this->data['iin'] = array(
+                'name'  => 'iin',
+                'id'    => 'iin',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('iin'),
+            );
+
+         
+
+            $this->data['preference_district'] = array(
+                'name'  => 'preference_district',
+                'id'    => 'preference_district',
+                'rows'  => '5',
+                'value' => $this->form_validation->set_value('preference_district'),
+            );
+            
+            $this->data['referal_code'] = array(
+                'name'  => 'referal_code',
+                'id'    => 'referal_code',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('referal_code'),
+            );
+            /* ______________ */
+//set_value('firstname') == false ? $profile->firstname : set_value('firstname')
+
+            $this->_render_page('auth/user_registration', $this->data);
+        }
+    }
+    
+
+    
 
     //create a new user
     function create_user()
@@ -702,7 +1008,7 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email|is_unique[users.email]');
         $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'required|xss_clean');
         $this->form_validation->set_rules('company', $this->lang->line('create_user_validation_company_label'), 'required|xss_clean');
-        $this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
+        $this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'required|min_length[10]|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
         $this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'required');
         // validate new data
         $this->form_validation->set_rules('passport_series', 'required|xss_clean');
@@ -716,8 +1022,8 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('iin', 'required|xss_clean');
         $this->form_validation->set_rules('preference_region', 'required|xss_clean');
         $this->form_validation->set_rules('preference_district', 'required|xss_clean');
-        $this->form_validation->set_rules('preference_square', 'required|xss_clean');
-
+        $this->form_validation->set_rules('preference_cost', 'required|xss_clean');
+        $this->form_validation->set_rules('referal_cod', 'xss_clean');
 
 
         if ($this->form_validation->run() == true)
@@ -869,18 +1175,20 @@ class Auth extends CI_Controller
                 'value' => $this->form_validation->set_value('preference_district'),
             );
 
-            $this->data['preference_square'] = array(
-                'name'  => 'preference_square',
-                'id'    => 'preference_square',
-                'type'  => 'text',
-                'value' => $this->form_validation->set_value('preference_square'),
-            );
+       
 
             $this->data['preference_cost'] = array(
                 'name'  => 'preference_cost',
                 'id'    => 'iin',
                 'type'  => 'text',
                 'value' => $this->form_validation->set_value('preference_cost'),
+            );
+            
+             $this->data['referal_cod'] = array(
+                'name'  => 'referal_cod',
+                'id'    => 'referal_cod',
+                'type'  => 'text',
+                'value' => $this->form_validation->set_value('referal_cod'),
             );
             /* ______________ */
 
@@ -1166,6 +1474,19 @@ class Auth extends CI_Controller
             $ip = $_SERVER['REMOTE_ADDR'];
         }
         return $ip;
+    }    
+    
+    function referal_code($str)
+    {
+        if ($str == 'company')
+        {
+            return TRUE;	
+        }
+        else if(!$this->ion_auth->referal_check($str))
+        {
+            $this->form_validation->set_message('referal_code', $this->lang->line('referal_code_error'));
+            return FALSE;
+        }
+        return TRUE;
     }
-
 }

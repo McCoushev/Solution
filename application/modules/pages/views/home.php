@@ -56,9 +56,8 @@ $this->load->view('inc/header');
 	</div>
 	
 	
-
 <!-- Modal -->
-<!--div id="anons" class="modal hide fade" tabindex="-1"   aria-hidden="true">
+<div id="anons" class="modal hide fade" tabindex="-1"   aria-hidden="true">
     <? $attributes = array('class' => 'form-inline radius4 anons-form'); ?> 
     <?php echo form_open("auth/anons", $attributes);?>
   <div class="modal-header">
@@ -66,8 +65,9 @@ $this->load->view('inc/header');
    
   </div>
   <div class="modal-body">
-    <h3>Презентация компании состоится 18 ноября в 15-00 в здании Сбербанка по адресу: Москва, ул. Большая Дорогомиловская, дом 10.</h3>
-    <p class='blue'>Количество мест ограничено. Для того, что бы Вы гарантировано попали на наше мероприятие  Вам необходимо пройти регистрацию</p>
+       
+    <h3>11 декабря состоится информационная встреча по адресу ул. Сретенка дом. 14.  </h3>
+    <p class='blue'>Встреча состоится в здании Сбербанка в 18-00. Количество мест ограничено, просьба зарегистрироваться заранее.</p>
     
             <span class="control-group"><input type="text" name="first_name" class="input-medium uneditable " placeholder="Имя"></span>
             <span class="control-group"><input type="text" name="email" class="input-medium uneditable" placeholder="Email"></span>
@@ -83,9 +83,9 @@ $this->load->view('inc/header');
     
   </div>
      <?php echo form_close();?>
-</div-->	
+</div>	
 <script type='text/javascript'>
-/*$(function(){
+$(function(){
     $('#anons').modal('show');
 
     $('#anons').on('shown', function () {
@@ -128,9 +128,11 @@ $this->load->view('inc/header');
   }
  });
  
-}); */
+}); 
  
 </script>
+
+
 
 <script src="/assets/js/blueimp-helper.js"></script>
 <script src="/assets/js/blueimp-gallery.js"></script>

@@ -35,163 +35,142 @@ class Ion_auth_model extends CI_Model
      *
      * @var array
      * */
-    public
-        $tables = array();
+    public $tables = array();
 
     /**
      * activation code
      *
      * @var string
      * */
-    public
-        $activation_code;
+    public $activation_code;
 
     /**
      * forgotten password key
      *
      * @var string
      * */
-    public
-        $forgotten_password_code;
+    public $forgotten_password_code;
 
     /**
      * new password
      *
      * @var string
      * */
-    public
-        $new_password;
+    public $new_password;
 
     /**
      * Identity
      *
      * @var string
      * */
-    public
-        $identity;
+    public $identity;
 
     /**
      * Where
      *
      * @var array
      * */
-    public
-        $_ion_where = array();
+    public $_ion_where = array();
 
     /**
      * Select
      *
      * @var array
      * */
-    public
-        $_ion_select = array();
+    public $_ion_select = array();
 
     /**
      * Like
      *
      * @var array
      * */
-    public
-        $_ion_like = array();
+    public $_ion_like = array();
 
     /**
      * Limit
      *
      * @var string
      * */
-    public
-        $_ion_limit = NULL;
+    public $_ion_limit = NULL;
 
     /**
      * Offset
      *
      * @var string
      * */
-    public
-        $_ion_offset = NULL;
+    public $_ion_offset = NULL;
 
     /**
      * Order By
      *
      * @var string
      * */
-    public
-        $_ion_order_by = NULL;
+    public $_ion_order_by = NULL;
 
     /**
      * Order
      *
      * @var string
      * */
-    public
-        $_ion_order = NULL;
+    public $_ion_order = NULL;
 
     /**
      * Hooks
      *
      * @var object
      * */
-    protected
-        $_ion_hooks;
+    protected $_ion_hooks;
 
     /**
      * Response
      *
      * @var string
      * */
-    protected
-        $response = NULL;
+    protected $response = NULL;
 
     /**
      * message (uses lang file)
      *
      * @var string
      * */
-    protected
-        $messages;
+    protected $messages;
 
     /**
      * error message (uses lang file)
      *
      * @var string
      * */
-    protected
-        $errors;
+    protected $errors;
 
     /**
      * error start delimiter
      *
      * @var string
      * */
-    protected
-        $error_start_delimiter;
+    protected $error_start_delimiter;
 
     /**
      * error end delimiter
      *
      * @var string
      * */
-    protected
-        $error_end_delimiter;
+    protected $error_end_delimiter;
 
     /**
      * caching of users and their groups
      *
      * @var array
      * */
-    public
-        $_cache_user_in_group = array();
+    public $_cache_user_in_group = array();
 
     /**
      * caching of groups
      *
      * @var array
      * */
-    protected
-        $_cache_groups = array();
+    protected $_cache_groups = array();
 
-    public
-        function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->load->database();
@@ -291,7 +270,7 @@ class Ion_auth_model extends CI_Model
      * @author Mathew
      * */
     public
-        function hash_password($password, $salt = false, $use_sha1_override = FALSE)
+            function hash_password($password, $salt = false, $use_sha1_override = FALSE)
     {
         if (empty($password))
         {
@@ -324,7 +303,7 @@ class Ion_auth_model extends CI_Model
      * @author Mathew
      * */
     public
-        function hash_password_db($id, $password, $use_sha1_override = FALSE)
+            function hash_password_db($id, $password, $use_sha1_override = FALSE)
     {
         if (empty($id) || empty($password))
         {
@@ -334,9 +313,9 @@ class Ion_auth_model extends CI_Model
         $this->trigger_events('extra_where');
 
         $query = $this->db->select('password, salt')
-            ->where('id', $id)
-            ->limit(1)
-            ->get($this->tables['users']);
+                ->where('id', $id)
+                ->limit(1)
+                ->get($this->tables['users']);
 
         $hash_password_db = $query->row();
 
@@ -385,7 +364,7 @@ class Ion_auth_model extends CI_Model
      * @author Mathew
      * */
     public
-        function hash_code($password)
+            function hash_code($password)
     {
         return $this->hash_password($password, FALSE, TRUE);
     }
@@ -397,7 +376,7 @@ class Ion_auth_model extends CI_Model
      * @author Mathew
      * */
     public
-        function salt()
+            function salt()
     {
         return substr(md5(uniqid(rand(), true)), 0, $this->salt_length);
     }
@@ -418,16 +397,16 @@ class Ion_auth_model extends CI_Model
      * @author Mathew
      * */
     public
-        function activate($id, $code = false)
+            function activate($id, $code = false)
     {
         $this->trigger_events('pre_activate');
 
         if ($code !== FALSE)
         {
             $query = $this->db->select($this->identity_column)
-                ->where('activation_code', $code)
-                ->limit(1)
-                ->get($this->tables['users']);
+                    ->where('activation_code', $code)
+                    ->limit(1)
+                    ->get($this->tables['users']);
 
             $result = $query->row();
 
@@ -484,7 +463,7 @@ class Ion_auth_model extends CI_Model
      * @author Mathew
      * */
     public
-        function deactivate($id = NULL)
+            function deactivate($id = NULL)
     {
         $this->trigger_events('deactivate');
 
@@ -515,7 +494,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function clear_forgotten_password_code($code)
+            function clear_forgotten_password_code($code)
     {
 
         if (empty($code))
@@ -547,7 +526,7 @@ class Ion_auth_model extends CI_Model
      * @author Mathew
      * */
     public
-        function reset_password($identity, $new)
+            function reset_password($identity, $new)
     {
         $this->trigger_events('pre_change_password');
 
@@ -560,9 +539,9 @@ class Ion_auth_model extends CI_Model
         $this->trigger_events('extra_where');
 
         $query = $this->db->select('id, password, salt')
-            ->where($this->identity_column, $identity)
-            ->limit(1)
-            ->get($this->tables['users']);
+                ->where($this->identity_column, $identity)
+                ->limit(1)
+                ->get($this->tables['users']);
 
         if ($query->num_rows() !== 1)
         {
@@ -615,9 +594,9 @@ class Ion_auth_model extends CI_Model
         $this->trigger_events('extra_where');
 
         $query = $this->db->select('id, password, salt')
-            ->where($this->identity_column, $identity)
-            ->limit(1)
-            ->get($this->tables['users']);
+                ->where($this->identity_column, $identity)
+                ->limit(1)
+                ->get($this->tables['users']);
 
         if ($query->num_rows() !== 1)
         {
@@ -678,7 +657,7 @@ class Ion_auth_model extends CI_Model
         $this->trigger_events('extra_where');
 
         return $this->db->where('username', $username)
-                ->count_all_results($this->tables['users']) > 0;
+                        ->count_all_results($this->tables['users']) > 0;
     }
 
     /**
@@ -699,7 +678,7 @@ class Ion_auth_model extends CI_Model
         $this->trigger_events('extra_where');
 
         return $this->db->where('email', $email)
-                ->count_all_results($this->tables['users']) > 0;
+                        ->count_all_results($this->tables['users']) > 0;
     }
 
     /**
@@ -709,7 +688,7 @@ class Ion_auth_model extends CI_Model
      * @author Mathew
      * */
     public
-        function identity_check($identity = '')
+            function identity_check($identity = '')
     {
         $this->trigger_events('identity_check');
 
@@ -719,7 +698,21 @@ class Ion_auth_model extends CI_Model
         }
 
         return $this->db->where($this->identity_column, $identity)
-                ->count_all_results($this->tables['users']) > 0;
+                        ->count_all_results($this->tables['users']) > 0;
+    }
+
+    public
+            function referal_check($ref = '')
+    {
+        $this->trigger_events('referal_check');
+
+        if (empty($ref))
+        {
+            return FALSE;
+        }
+ 
+        return $this->db->where('referal_code', $ref)
+                        ->count_all_results($this->tables['users']) > 0;
     }
 
     /**
@@ -832,24 +825,144 @@ class Ion_auth_model extends CI_Model
           $this->set_error('account_creation_duplicate_email');
           return FALSE;
           } */
-        
-         $data = array(
-            'anons_date'    => date('Y-m-d G:i:s', time() + (2 * 60 * 60))
-        );
-         
-        $this->db->insert('anons', $data);
-       
+
         $data = array(
-            'name'  => $username,
-            'anons_id'  => $this->db->insert_id(),
-            'email' => $email,
-            'phone' => $phone
+            'anons_date' => date('Y-m-d G:i:s', time() + (2 * 60 * 60))
         );
-        
+
+        $this->db->insert('anons', $data);
+
+        $data = array(
+            'name'     => $username,
+            'anons_id' => $this->db->insert_id(),
+            'email'    => $email,
+            'phone'    => $phone
+        );
+
         $this->db->insert('anons_user', $data);
-      
+
 
         return TRUE;
+    }
+
+    public function set_referal($id, $str)
+    {
+         $this->db->select('id')
+                ->from($this->tables['users'])
+                ->where(array('referal_code' => $str))
+                ->limit(1);
+         $query = $this->db->get();
+//        echo '<pre>', var_dump($query);
+//        exit();
+        $result = $query->result();
+        
+        
+        if ($query->num_rows() > 0)
+        {
+            $referal_user = $result[0];
+            $referal_data = array(
+                'user_id' => $id,
+                'referal' => $referal_user->id
+            );
+            $this->db->insert('referal', $referal_data);
+        }
+    }
+    
+    public
+            function user_register($username, $password, $email, $additional_data = array(), $groups = array(), $new_data = array())
+    {
+        $this->trigger_events('pre_register');
+
+        $manual_activation = $this->config->item('manual_activation', 'ion_auth');
+
+        if ($this->identity_column == 'email' && $this->email_check($email))
+        {
+            $this->set_error('account_creation_duplicate_email');
+            return FALSE;
+        }
+        elseif ($this->identity_column == 'username' && $this->username_check($username))
+        {
+            $this->set_error('account_creation_duplicate_username');
+            return FALSE;
+        }
+
+        // If username is taken, use username1 or username2, etc.
+        if ($this->identity_column != 'username')
+        {
+            $original_username = $username;
+            for ($i = 0; $this->username_check($username); $i++)
+            {
+                if ($i > 0)
+                {
+                    $username = $original_username . $i;
+                }
+            }
+        }
+
+        // IP Address
+        $ip_address = $this->_prepare_ip($this->input->ip_address());
+        $salt       = $this->store_salt ? $this->salt() : FALSE;
+        $password   = $this->hash_password($password, $salt);
+
+        // Users table.
+        $data = array(
+            'username'   => $username,
+            'password'   => $password,
+            'email'      => $email,
+            'ip_address' => $ip_address,
+            'created_on' => time(),
+            'last_login' => time(),
+            'active'     => ($manual_activation === false ? 1 : 0)
+        );
+
+        if ($this->store_salt)
+        {
+            $data['salt'] = $salt;
+        }
+
+        //filter out any data passed that doesnt have a matching column in the users table
+        //and merge the set user data and the additional data
+        $user_data = array_merge($this->_filter_data($this->tables['users'], $additional_data), $data);
+        //print_r($user_data);exit('user_register');
+        $this->trigger_events('extra_set');
+
+        $this->db->insert($this->tables['users'], $user_data);
+
+        $id = $this->db->insert_id();
+        
+        $ref_data = array(
+            'referal_code'=>100000+$id
+        );
+        
+        $this->db->update($this->tables['users'], $ref_data, array('id'=>$id));
+        
+         
+        
+        
+        if (!empty($groups))
+        {
+            //add to groups
+            foreach ($groups as $group)
+            {
+                $this->add_to_group($group, $id);
+            }
+        }
+
+        //add to default group if not already set
+        $default_group = $this->where('name', $this->config->item('default_group', 'ion_auth'))->group()->row();
+        if ((isset($default_group->id) && !isset($groups)) || (empty($groups) && !in_array($default_group->id, $groups)))
+        {
+            $this->add_to_group($default_group->id, $id);
+        }
+
+        $new_data['user_id'] = $id;
+        $this->db->insert('user_data', $new_data);
+        
+        //$this->set_referal($id,$additional_data['referal_code']);
+        
+        $this->trigger_events('post_register');
+
+        return (isset($id)) ? $id : FALSE;
     }
 
     /**
@@ -859,7 +972,7 @@ class Ion_auth_model extends CI_Model
      * @author Mathew
      * */
     public
-        function register($username, $password, $email, $additional_data = array(), $groups = array())
+            function register($username, $password, $email, $additional_data = array(), $groups = array())
     {
         $this->trigger_events('pre_register');
 
@@ -948,7 +1061,7 @@ class Ion_auth_model extends CI_Model
      * @author Mathew
      * */
     public
-        function login($identity, $password, $remember = FALSE)
+            function login($identity, $password, $remember = FALSE)
     {
         $this->trigger_events('pre_login');
 
@@ -961,9 +1074,9 @@ class Ion_auth_model extends CI_Model
         $this->trigger_events('extra_where');
 
         $query = $this->db->select($this->identity_column . ', username, email, id, password, active, last_login')
-            ->where($this->identity_column, $this->db->escape_str($identity))
-            ->limit(1)
-            ->get($this->tables['users']);
+                ->where($this->identity_column, $this->db->escape_str($identity))
+                ->limit(1)
+                ->get($this->tables['users']);
 
         if ($this->is_time_locked_out($identity))
         {
@@ -1008,6 +1121,14 @@ class Ion_auth_model extends CI_Model
 
                 return TRUE;
             }
+            else
+            {
+                $this->set_key_error('password', 'password_unsuccessful');
+            }
+        }
+        else
+        {
+            $this->set_key_error('login', 'login_unsuccessful');
         }
 
         //Hash something anyway, just to take up time
@@ -1016,8 +1137,10 @@ class Ion_auth_model extends CI_Model
         $this->increase_login_attempts($identity);
 
         $this->trigger_events('post_login_unsuccessful');
-        $this->set_error('login_unsuccessful');
 
+        //print_r($this->errors); exit();
+        //$this->set_error('password_unsuccessful');
+        //$this->form_validation->set_message('password', 'Incorrect');
         return FALSE;
     }
 
@@ -1029,7 +1152,7 @@ class Ion_auth_model extends CI_Model
      * @return boolean
      * */
     public
-        function is_max_login_attempts_exceeded($identity)
+            function is_max_login_attempts_exceeded($identity)
     {
         if ($this->config->item('track_login_attempts', 'ion_auth'))
         {
@@ -1073,7 +1196,7 @@ class Ion_auth_model extends CI_Model
      * @return	boolean
      */
     public
-        function is_time_locked_out($identity)
+            function is_time_locked_out($identity)
     {
 
         return $this->is_max_login_attempts_exceeded($identity) && $this->get_last_attempt_time($identity) > time() - $this->config->item('lockout_time', 'ion_auth');
@@ -1086,7 +1209,7 @@ class Ion_auth_model extends CI_Model
      * @return	int
      */
     public
-        function get_last_attempt_time($identity)
+            function get_last_attempt_time($identity)
     {
         if ($this->config->item('track_login_attempts', 'ion_auth'))
         {
@@ -1115,7 +1238,7 @@ class Ion_auth_model extends CI_Model
      * @param string $identity
      * */
     public
-        function increase_login_attempts($identity)
+            function increase_login_attempts($identity)
     {
         if ($this->config->item('track_login_attempts', 'ion_auth'))
         {
@@ -1132,7 +1255,7 @@ class Ion_auth_model extends CI_Model
      * @param string $identity
      * */
     public
-        function clear_login_attempts($identity, $expire_period = 86400)
+            function clear_login_attempts($identity, $expire_period = 86400)
     {
         if ($this->config->item('track_login_attempts', 'ion_auth'))
         {
@@ -1147,8 +1270,7 @@ class Ion_auth_model extends CI_Model
         return FALSE;
     }
 
-    public
-        function limit($limit)
+    public function limit($limit)
     {
         $this->trigger_events('limit');
         $this->_ion_limit = $limit;
@@ -1156,8 +1278,7 @@ class Ion_auth_model extends CI_Model
         return $this;
     }
 
-    public
-        function offset($offset)
+    public function offset($offset)
     {
         $this->trigger_events('offset');
         $this->_ion_offset = $offset;
@@ -1165,8 +1286,28 @@ class Ion_auth_model extends CI_Model
         return $this;
     }
 
-    public
-        function where($where, $value = NULL)
+    public function user_data($id = NULL)
+    {
+        //if no id was passed use the current users id
+        $id || $id = $this->session->userdata('user_id');
+
+        $query = $this->db->select('*')
+            ->where('user_id', $id)
+            ->limit(1)
+            ->get('user_data');
+
+        if ($query->num_rows() !== 1)
+        {
+            return FALSE;
+        } 
+        else 
+        {
+            return $query->row();
+        } 
+    }
+      
+      
+    public function where($where, $value = NULL)
     {
         $this->trigger_events('where');
 
@@ -1181,7 +1322,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function like($like, $value = NULL)
+            function like($like, $value = NULL)
     {
         $this->trigger_events('like');
 
@@ -1196,7 +1337,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function select($select)
+            function select($select)
     {
         $this->trigger_events('select');
 
@@ -1206,7 +1347,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function order_by($by, $order = 'desc')
+            function order_by($by, $order = 'desc')
     {
         $this->trigger_events('order_by');
 
@@ -1217,7 +1358,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function row()
+            function row()
     {
         $this->trigger_events('row');
 
@@ -1228,7 +1369,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function row_array()
+            function row_array()
     {
         $this->trigger_events(array('row', 'row_array'));
 
@@ -1239,7 +1380,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function result()
+            function result()
     {
         $this->trigger_events('result');
 
@@ -1250,7 +1391,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function result_array()
+            function result_array()
     {
         $this->trigger_events(array('result', 'result_array'));
 
@@ -1261,7 +1402,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function num_rows()
+            function num_rows()
     {
         $this->trigger_events(array('num_rows'));
 
@@ -1278,7 +1419,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function users($groups = NULL)
+            function users($groups = NULL)
     {
         $this->trigger_events('users');
 
@@ -1315,7 +1456,7 @@ class Ion_auth_model extends CI_Model
             {
                 $this->db->distinct();
                 $this->db->join(
-                    $this->tables['users_groups'], $this->tables['users_groups'] . '.' . $this->join['users'] . '=' . $this->tables['users'] . '.id', 'inner'
+                        $this->tables['users_groups'], $this->tables['users_groups'] . '.' . $this->join['users'] . '=' . $this->tables['users'] . '.id', 'inner'
                 );
 
                 $this->db->where_in($this->tables['users_groups'] . '.' . $this->join['groups'], $groups);
@@ -1380,7 +1521,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function user($id = NULL)
+            function user($id = NULL)
     {
         $this->trigger_events('user');
 
@@ -1402,7 +1543,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function get_users_groups($id = FALSE)
+            function get_users_groups($id = FALSE)
     {
         $this->trigger_events('get_users_group');
 
@@ -1410,9 +1551,9 @@ class Ion_auth_model extends CI_Model
         $id || $id = $this->session->userdata('user_id');
 
         return $this->db->select($this->tables['users_groups'] . '.' . $this->join['groups'] . ' as id, ' . $this->tables['groups'] . '.name, ' . $this->tables['groups'] . '.description')
-                ->where($this->tables['users_groups'] . '.' . $this->join['users'], $id)
-                ->join($this->tables['groups'], $this->tables['users_groups'] . '.' . $this->join['groups'] . '=' . $this->tables['groups'] . '.id')
-                ->get($this->tables['users_groups']);
+                        ->where($this->tables['users_groups'] . '.' . $this->join['users'], $id)
+                        ->join($this->tables['groups'], $this->tables['users_groups'] . '.' . $this->join['groups'] . '=' . $this->tables['groups'] . '.id')
+                        ->get($this->tables['users_groups']);
     }
 
     /**
@@ -1422,7 +1563,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function add_to_group($group_id, $user_id = false)
+            function add_to_group($group_id, $user_id = false)
     {
         $this->trigger_events('add_to_group');
 
@@ -1457,7 +1598,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function remove_from_group($group_ids = false, $user_id = false)
+            function remove_from_group($group_ids = false, $user_id = false)
     {
         $this->trigger_events('remove_from_group');
 
@@ -1504,7 +1645,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function groups()
+            function groups()
     {
         $this->trigger_events('groups');
 
@@ -1550,7 +1691,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function group($id = NULL)
+            function group($id = NULL)
     {
         $this->trigger_events('group');
 
@@ -1571,7 +1712,7 @@ class Ion_auth_model extends CI_Model
      * @author Phil Sturgeon
      * */
     public
-        function update($id, array $data)
+            function update($id, array $data,$userData = false)
     {
         $this->trigger_events('pre_update_user');
 
@@ -1611,6 +1752,7 @@ class Ion_auth_model extends CI_Model
 
         $this->trigger_events('extra_where');
         $this->db->update($this->tables['users'], $data, array('id' => $user->id));
+        $this->db->update($this->tables['users_data'], $userData, array('user_id' => $user->id));
 
         if ($this->db->trans_status() === FALSE)
         {
@@ -1635,7 +1777,7 @@ class Ion_auth_model extends CI_Model
      * @author Phil Sturgeon
      * */
     public
-        function delete_user($id)
+            function delete_user($id)
     {
         $this->trigger_events('pre_delete_user');
 
@@ -1675,7 +1817,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function update_last_login($id)
+            function update_last_login($id)
     {
         $this->trigger_events('update_last_login');
 
@@ -1695,7 +1837,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function set_lang($lang = 'en')
+            function set_lang($lang = 'en')
     {
         $this->trigger_events('set_lang');
 
@@ -1726,7 +1868,7 @@ class Ion_auth_model extends CI_Model
      * @author jrmadsen67
      * */
     public
-        function set_session($user)
+            function set_session($user)
     {
 
         $this->trigger_events('pre_set_session');
@@ -1753,7 +1895,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function remember_user($id)
+            function remember_user($id)
     {
         $this->trigger_events('pre_remember_user');
 
@@ -1808,7 +1950,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function login_remembered_user()
+            function login_remembered_user()
     {
         $this->trigger_events('pre_login_remembered_user');
 
@@ -1822,10 +1964,10 @@ class Ion_auth_model extends CI_Model
         //get the user
         $this->trigger_events('extra_where');
         $query = $this->db->select($this->identity_column . ', id, username, email, last_login')
-            ->where($this->identity_column, get_cookie('identity'))
-            ->where('remember_code', get_cookie('remember_code'))
-            ->limit(1)
-            ->get($this->tables['users']);
+                ->where($this->identity_column, get_cookie('identity'))
+                ->where('remember_code', get_cookie('remember_code'))
+                ->limit(1)
+                ->get($this->tables['users']);
 
         //if the user was found, sign them in
         if ($query->num_rows() == 1)
@@ -1856,7 +1998,7 @@ class Ion_auth_model extends CI_Model
      * @author aditya menon
      */
     public
-        function create_group($group_name = FALSE, $group_description = '', $additional_data = array())
+            function create_group($group_name = FALSE, $group_description = '', $additional_data = array())
     {
         // bail if the group name was not passed
         if (!$group_name)
@@ -1899,7 +2041,7 @@ class Ion_auth_model extends CI_Model
      * @author aditya menon
      * */
     public
-        function update_group($group_id = FALSE, $group_name = FALSE, $additional_data = array())
+            function update_group($group_id = FALSE, $group_name = FALSE, $additional_data = array())
     {
         if (empty($group_id))
             return FALSE;
@@ -1947,7 +2089,7 @@ class Ion_auth_model extends CI_Model
      * @author aditya menon
      * */
     public
-        function delete_group($group_id = FALSE)
+            function delete_group($group_id = FALSE)
     {
         // bail if mandatory param not set
         if (!$group_id || empty($group_id))
@@ -1980,7 +2122,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function set_hook($event, $name, $class, $method, $arguments)
+            function set_hook($event, $name, $class, $method, $arguments)
     {
         $this->_ion_hooks->{$event}[$name]            = new stdClass;
         $this->_ion_hooks->{$event}[$name]->class     = $class;
@@ -1989,7 +2131,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function remove_hook($event, $name)
+            function remove_hook($event, $name)
     {
         if (isset($this->_ion_hooks->{$event}[$name]))
         {
@@ -1998,7 +2140,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function remove_hooks($event)
+            function remove_hooks($event)
     {
         if (isset($this->_ion_hooks->$event))
         {
@@ -2007,7 +2149,7 @@ class Ion_auth_model extends CI_Model
     }
 
     protected
-        function _call_hook($event, $name)
+            function _call_hook($event, $name)
     {
         if (isset($this->_ion_hooks->{$event}[$name]) && method_exists($this->_ion_hooks->{$event}[$name]->class, $this->_ion_hooks->{$event}[$name]->method))
         {
@@ -2020,7 +2162,7 @@ class Ion_auth_model extends CI_Model
     }
 
     public
-        function trigger_events($events)
+            function trigger_events($events)
     {
         if (is_array($events) && !empty($events))
         {
@@ -2050,7 +2192,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function set_message_delimiters($start_delimiter, $end_delimiter)
+            function set_message_delimiters($start_delimiter, $end_delimiter)
     {
         $this->message_start_delimiter = $start_delimiter;
         $this->message_end_delimiter   = $end_delimiter;
@@ -2067,7 +2209,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function set_error_delimiters($start_delimiter, $end_delimiter)
+            function set_error_delimiters($start_delimiter, $end_delimiter)
     {
         $this->error_start_delimiter = $start_delimiter;
         $this->error_end_delimiter   = $end_delimiter;
@@ -2084,7 +2226,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function set_message($message)
+            function set_message($message)
     {
         $this->messages[] = $message;
 
@@ -2100,7 +2242,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function messages()
+            function messages()
     {
         $_output = '';
         foreach ($this->messages as $message)
@@ -2121,7 +2263,7 @@ class Ion_auth_model extends CI_Model
      * @author Raul Baldner Junior
      * */
     public
-        function messages_array($langify = TRUE)
+            function messages_array($langify = TRUE)
     {
         if ($langify)
         {
@@ -2148,9 +2290,17 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function set_error($error)
+            function set_error($error)
     {
         $this->errors[] = $error;
+
+        return $error;
+    }
+
+    public
+            function set_key_error($key, $error)
+    {
+        $this->errors[$key] = $error;
 
         return $error;
     }
@@ -2164,7 +2314,7 @@ class Ion_auth_model extends CI_Model
      * @author Ben Edmunds
      * */
     public
-        function errors()
+            function errors()
     {
         $_output = '';
         foreach ($this->errors as $error)
@@ -2185,7 +2335,7 @@ class Ion_auth_model extends CI_Model
      * @author Raul Baldner Junior
      * */
     public
-        function errors_array($langify = TRUE)
+            function errors_array($langify = TRUE)
     {
         if ($langify)
         {
@@ -2203,8 +2353,25 @@ class Ion_auth_model extends CI_Model
         }
     }
 
-    protected
-        function _filter_data($table, $data)
+    public function _errors_array($langify = TRUE)
+    {
+        if ($langify)
+        {
+            $_output = array();
+            foreach ($this->errors as $k => $error)
+            {
+                $errorLang   = $this->lang->line($error) ? $this->lang->line($error) : '##' . $error . '##';
+                $_output[$k] = $this->error_start_delimiter . $errorLang . $this->error_end_delimiter;
+            }
+            return $_output;
+        }
+        else
+        {
+            return $this->errors;
+        }
+    }
+
+    protected function _filter_data($table, $data)
     {
         $filtered_data = array();
         $columns       = $this->db->list_fields($table);
@@ -2221,8 +2388,7 @@ class Ion_auth_model extends CI_Model
         return $filtered_data;
     }
 
-    protected
-        function _prepare_ip($ip_address)
+    protected function _prepare_ip($ip_address)
     {
         if ($this->db->platform() === 'postgre' || $this->db->platform() === 'sqlsrv' || $this->db->platform() === 'mssql' || $this->db->platform() === 'mysqli')
         {

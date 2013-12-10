@@ -17,6 +17,8 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="/assets/css/blueimp-gallery.css">
     <link rel="stylesheet" href="/assets/css/blueimp-gallery-indicator.css">
+     <!-- Custom scrollbars CSS -->
+    <link href="/assets/css/jquery.mCustomScrollbar.css" rel="stylesheet" />
 	<script type="text/javascript">
 	  WebFontConfig = {
 	    google: { families: [ 'Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300:cyrillic-ext,latin' ] }

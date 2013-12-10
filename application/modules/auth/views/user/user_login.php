@@ -1,7 +1,7 @@
 <?
 $this->load->view('inc/header');
 ?>
-<div id="wrap">
+
 	<div class="container">
 		<div class="page-header">
 			
@@ -15,13 +15,13 @@ $this->load->view('inc/header');
                     <?  $this->load->view('inc/logo'); ?>
 		
 		</div>
-		<div style="padding:15px 300px;" class="content">
+		<div style="padding:15px 370px;" class="content">
 <h1  class="head">Регистрация</h1> 
                 <h2 class="head">Компания  «Простое решение» это:</h2> 
 <!--h1><?php echo lang('login_heading');?></h1>
 <p><?php echo lang('login_subheading');?></p-->
 
-<div id="infoMessage"><?php echo $message;?></div>
+<div style="text-align:center;" id="infoMessage"><?php echo $message;?></div>
 
 
 
@@ -34,24 +34,24 @@ $this->load->view('inc/header');
         
         <? $identity['placeholder'] = 'Ваше имя'; ?>
         <? $identity['class'] = 'input-block-level'; ?>  
-        
+        <div class="control-group <?php echo (form_error('identity')|| isset($errors['login']))?'error':''; ?>">
         <?php echo form_input($identity); ?>
-        
+        </div>
          <? $password['class'] = 'input-block-level'; ?>
          <? $password['placeholder'] = 'Пароль'; ?>
-   
+        <div class="control-group <?php echo (form_error('password')|| isset($errors['password']))?'error':''; ?>">
         <?php echo form_input($password);?>
-        <br />
-        <!--label class="checkbox">
-          <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"');?>Remember me
-        </label-->
-        <?php
-         //echo form_submit('submit', lang('login_submit_btn'));
-        ?>
-        <!--button class="btn btn-large btn-primary" type="submit">Sign in</button-->
+          </div>   
+       
+        <label class="checkbox">
+          <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"');?>Запомнить
+        </label>
+       
+        <? if(isset($errors['password'])) { ?> <a href="/forgot_password"><? echo lang('login_forgot_password'); ?></a> <? } ?>
+        <a href="/register">Регистрация-></a> 
+       
+       
         
-        <br />
-        <a href="/register">Регистрация-></a><?php echo (form_error('first_name'))?'<a href="/forgot_password">.lang(\'login_forgot_password\').</a>':''; ?>
      <?php echo form_close();?>
        </div>
              
@@ -59,11 +59,17 @@ $this->load->view('inc/header');
 
 
 
-       </div>
+    
              
-	</div>
+	
    
- 
+ <script>
+     $('.form-signin input[name=\'password\']').bind('keydown', function(e) {
+		if (e.keyCode == 13) {
+			$('.form-signin').submit();
+		}
+	});
+ </script>
 
 	
 <?

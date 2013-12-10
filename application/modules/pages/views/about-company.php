@@ -1,6 +1,4 @@
-<?
-$this->load->view('inc/header');
-?>
+<? $this->load->view('inc/header'); ?>
 <div id="wrap">
 
     <div class="container">
@@ -8,9 +6,7 @@ $this->load->view('inc/header');
 
             <div class="navbar pull-right">
                 <div class="navbar-inner ">
-                    <?
-                    $this->load->view('inc/navigation');
-                    ?>
+                    <? $this->load->view('inc/navigation'); ?>
                 </div>
             </div>
             <? $this->load->view('inc/logo'); ?>
@@ -33,10 +29,10 @@ $this->load->view('inc/header');
                 <li>Легальность, прозрачность, надежность, доходность.</li>
             </ol>
             <br />
-            <a href="#">Устав ПО «ЖК Простое решение»</a><br />
-            <a href="#">Договор  пайщика</a><br />
+            <a href="/about-company/ustav">Устав ПО «ЖК Простое решение»</a><br />
+            <a href="/about-company/dogovor">Договор  пайщика</a><br />
             <a href="#">Заявление на вступление</a><br />
-            <a href="#">Наш расчетный счет</a><br />
+            <a href="/about-company/invoice">Пример платежного поручения</a><br />
             <br />
             <div class="row  vertical about-blocks">
                 <div class="hovergallery span6">
@@ -47,17 +43,8 @@ $this->load->view('inc/header');
                     <img class="pull-left"  src="/assets/images/registration2.jpeg" />
                     <h2>Постановка на учет</h2>
                 </div>
-
             </div>
         </div>
-
     </div>
 
-
-
-
-
-    <?
-    $this->load->view('inc/footer');
-
-    
+<? $this->load->view('inc/footer');

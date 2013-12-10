@@ -32,9 +32,7 @@ $(function(){
 			
 			<div class="navbar pull-right">
 			<div class="navbar-inner ">
-				  <?
-                            $this->load->view('inc/navigation');
-                            ?>
+				  <? $this->load->view('inc/navigation'); ?>
 			</div>
 		</div>
 		<?  $this->load->view('inc/logo'); ?>
@@ -98,6 +96,5 @@ $(function(){
 	
 	
 	
-<?
-$this->load->view('inc/footer');
+<? $this->load->view('inc/footer');
 	
