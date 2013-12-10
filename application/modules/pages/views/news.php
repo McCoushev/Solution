@@ -41,4 +41,3 @@
 </div>
 
 <? $this->load->view('inc/footer');
-
