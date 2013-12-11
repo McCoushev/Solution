@@ -30,7 +30,6 @@ a:hover
 	<div>
 		<a href='<?php echo site_url('control/user_list')?>'>Запись на презентацию</a> |  
         <a href='<?php echo site_url('control/user_payments')?>'>Платежи</a> |
-		<a href='<?php echo site_url('control/customers_management')?>'>Пользователи</a> | 
 		<a href='<?php echo site_url('auth/logout')?>'>Выйти</a>		
 	</div>
 	<div style='height:20px;'></div>  

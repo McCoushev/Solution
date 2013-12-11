@@ -70,6 +70,12 @@ class Control extends MX_Controller
         $crud->set_theme('datatables');
         $crud->set_table('user_payments');
         $crud->set_subject('Платеж');
+        $crud
+            ->display_as('user_id', 'Номер клиента')
+            ->display_as('transaction_id', 'Номер транзакции')
+            ->display_as('amount', 'Сумма платежа')
+            ->display_as('date', 'Дата платежа')
+            ->display_as('type', 'Метод оплаты');
         
         $output = $crud->render();
 
